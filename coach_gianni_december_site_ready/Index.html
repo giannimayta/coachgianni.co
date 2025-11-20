@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coach Gianni — December</title>
+  <link rel="icon" href="assets/CG.png">
+  <style>
+    :root{
+      --bg:#0a0a0a;--panel:#141414;--line:#232323;--muted:#a1a1aa;--white:#fff;--black:#000;
+      --radius:16px;
+    }
+    html,body{
+      margin:0;padding:0;
+      background:var(--bg);color:var(--white);
+      font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+    }
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    .header{border-bottom:1px solid var(--line);padding:8px 10px;text-align:center}
+    .logo{height:44px;opacity:.95}
+    h1{
+      letter-spacing:.30em;
+      text-transform:uppercase;
+      font-weight:700;
+      margin:4px 0 0 0;
+      font-size:16px;
+    }
+    nav{
+      display:flex;gap:8px;justify-content:center;
+      margin-top:6px;flex-wrap:wrap;
+    }
+    .btn{
+      border:1px solid #3f3f46;
+      padding:.4rem .65rem;
+      border-radius:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.72rem;
+      background:transparent;
+      color:var(--white);
+      cursor:pointer;
+    }
+    .btn.active{background:#fff;color:#000}
+    .banner{
+      height:160px;position:relative;
+      border-bottom:1px solid var(--line);
+      overflow:hidden;
+    }
+    .banner::before{
+      content:"";
+      position:absolute;inset:0;
+      background:url('assets/GM109128.jpg') center/cover no-repeat;
+      opacity:.35;
+    }
+    .grid{display:grid;gap:16px}
+    @media(min-width:900px){
+      .grid.cols-3{grid-template-columns:2fr 1fr 1fr}
+      .grid.cols-32{grid-template-columns:repeat(3,1fr)}
+    }
+    .card{
+      background:rgba(24,24,27,.5);
+      border:1px solid #27272a;
+      border-radius:var(--radius);
+      padding:16px;
+    }
+    .muted{color:var(--muted)}
+    .kicker{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.25em;
+      color:var(--muted);
+    }
+    .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .cta{background:#fff;color:#000}
+    .center{text-align:center}
+    .modal{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,.6);
+      display:none;
+      align-items:center;justify-content:center;
+      padding:16px;z-index:50;
+    }
+    .modal.open{display:flex}
+    .modal-panel{
+      background:#0b0b0b;
+      border:1px solid var(--line);
+      border-radius:20px;
+      max-width:700px;width:100%;
+      box-shadow:0 20px 80px rgba(0,0,0,.6);
+    }
+    .modal-head,.modal-foot{
+      padding:12px 16px;
+      border-bottom:1px solid var(--line);
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .modal-foot{border-top:1px solid var(--line);border-bottom:0}
+    .modal-body{padding:16px}
+    input,select,textarea{
+      width:100%;box-sizing:border-box;
+      border-radius:12px;
+      border:1px solid #2b2b2b;
+      background:#fff;color:#000;
+      padding:10px;
+    }
+    textarea{min-height:120px}
+    .row{display:grid;gap:10px}
+    @media(min-width:700px){
+      .row.cols-2{grid-template-columns:repeat(2,1fr)}
+    }
+    .notice{
+      margin-top:8px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#121a2a;
+      border:1px solid #24324d;
+      color:#d9e7ff;
+      font-size:.85rem;
+    }
+    .flake{
+      position:absolute;top:-10px;
+      width:4px;height:4px;
+      border-radius:999px;
+      background:#fff;opacity:.7;
+      filter:blur(.5px);
+      animation:snow 10s linear infinite;
+    }
+    @keyframes snow{to{transform:translateY(110vh)}}
+    form[name="trigger"]{
+      position:absolute;left:-9999px;top:-9999px;
+      height:0;width:0;overflow:hidden;display:block;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner" aria-hidden="true">
+    <div id="snow"></div>
+  </div>
+
+  <header class="header">
+    <img src="assets/CG.png" class="logo" alt="Coach Gianni logo"/>
+    <h1>COACH GIANNI — DECEMBER</h1>
+    <nav>
+      <button class="btn" data-route="home">Home</button>
+      <button class="btn" data-route="groups">Winter Training</button>
+      <button class="btn" data-route="camps">Winter Camps</button>
+      <button class="btn" data-route="inquiry">Inquiry</button>
+    </nav>
+  </header>
+
+  <main class="container" id="app"></main>
+
+  <div class="modal" id="campModal" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <div class="kicker">Register — <span id="campTitle"></span></div>
+        <button class="btn" onclick="closeCamp()">Close</button>
+      </div>
+      <div class="modal-body" id="campBody"></div>
+      <div class="modal-foot">
+        <button class="btn cta" onclick="submitCamp()">Send Registration</button>
+        <button class="btn" onclick="closeCamp()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="groupModal" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <div class="kicker">Register — <span id="groupTitle"></span></div>
+        <button class="btn" onclick="closeGroup()">Close</button>
+      </div>
+      <div class="modal-body" id="groupBody"></div>
+      <div class="modal-foot">
+        <button class="btn cta" onclick="submitGroup()">Send Registration</button>
+        <button class="btn" onclick="closeGroup()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden Netlify forms -->
+  <form name="camp-registration" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="text" name="bot-field" />
+    <input type="text" name="campId" />
+    <input type="text" name="campTitle" />
+    <input type="text" name="campDetail" />
+    <input type="text" name="player" />
+    <input type="text" name="parent" />
+    <input type="email" name="email" />
+    <input type="text" name="phone" />
+    <input type="text" name="amount" />
+    <input type="text" name="paymentConfirmed" />
+  </form>
+
+  <form name="group-registration" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="text" name="bot-field" />
+    <input type="text" name="groupId" />
+    <input type="text" name="groupTitle" />
+    <input type="text" name="groupDetail" />
+    <input type="text" name="player" />
+    <input type="text" name="parent" />
+    <input type="email" name="email" />
+    <input type="text" name="phone" />
+    <input type="text" name="sizePrimary" />
+    <input type="text" name="sizeSecondary" />
+    <input type="text" name="amount" />
+    <input type="text" name="paymentConfirmed" />
+  </form>
+
+  <form name="inquiry" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="text" name="bot-field" />
+    <input type="text" name="athlete" />
+    <input type="text" name="dob" />
+    <input type="text" name="team" />
+    <input type="text" name="parent" />
+    <input type="email" name="email" />
+    <input type="text" name="phone" />
+    <textarea name="message"></textarea>
+  </form>
+
+  <!-- Trigger form so Netlify picks up forms -->
+  <form name="trigger" data-netlify="true">
+    <input type="text" name="temp" value="1">
+  </form>
+
+<script>
+const CAMPS = [
+  { id: "wk1", title: "Winter Camp — Week 1", detail: "Dec 22, 23, 24 - 9:00am-12:00pm + Open Run Dec 24 until 1:00pm", price: 350, defaultSpots: 10 },
+  { id: "wk2", title: "Winter Camp — Week 2", detail: "Dec 29, 30, 31 - 9:00am-12:00pm + Open Run Dec 31 until 1:00pm", price: 350, defaultSpots: 10 }
+];
+
+const GROUPS = [
+  { id: "sun-10-12", title: "Sundays 10:00am-12:00pm", detail: "Dec 7, 14, 21 - 10:00am-12:00pm", sessions: 3, price: 100, defaultSpots: 7, includesShirt: true },
+  { id: "sun-12-2",  title: "Sundays 12:00pm-2:00pm", detail: "Dec 7, 14, 21 - 12:00pm-2:00pm", sessions: 3, price: 100, defaultSpots: 8, includesShirt: true },
+  { id: "mon",       title: "Mondays", detail: "Dec 1, 8, 15 (9-10pm) · Dec 22 (8-9pm) · Dec 29 (9-10pm)", sessions: 5, price: 75, defaultSpots: 5, includesShirt: true },
+
+  { id: "tue",       title: "Tuesdays", detail: "Dec 2, 9, 16, 23 - 7-9pm", sessions: 4, price: 100, defaultSpots: 0, includesShirt: true },
+
+  { id: "wed",       title: "Wednesdays", detail: "Dec 3, 10, 17 - 9-10pm", sessions: 3, price: 75, defaultSpots: 2, includesShirt: true },
+  { id: "thu-1",     title: "Thursdays 6-7pm", detail: "Dec 4, 11, 18 - 6-7pm", sessions: 3, price: 230/3, defaultSpots: 5, includesShirt: true },
+  { id: "thu-2",     title: "Thursdays 7-9pm", detail: "Dec 4, 11, 18 - 7-9pm", sessions: 3, price: 320/3, defaultSpots: 3, includesShirt: true },
+  { id: "fri-1",     title: "Fridays 6-8pm", detail: "Dec 5, 12, 19 - 6-8pm", sessions: 3, price: 320/3, defaultSpots: 8, includesShirt: true },
+  { id: "fri-open",  title: "Friday Open Runs 8-10pm", detail: "Dec 5, 12, 19 - drop-in", sessions: 3, price: 20, defaultSpots: 20, includesShirt: false }
+];
+
+const STORAGE_KEY = "cg_spots_v2";
+
+function cad(n){
+  return new Intl.NumberFormat("en-CA",{style:"currency",currency:"CAD"}).format(Number(n));
+}
+
+let campSpots = Object.fromEntries(CAMPS.map(c => [c.id, c.defaultSpots]));
+let groupSpots = Object.fromEntries(GROUPS.map(g => [g.id, g.defaultSpots]));
+let route = "home";
+let activeCamp = null;
+let activeGroup = null;
+
+const app = document.getElementById("app");
+
+function netlifySubmit(name,data){
+  const fd = new FormData();
+  fd.append("form-name", name);
+  for(const k in data){ fd.append(k, String(data[k] ?? "")); }
+  return fetch("/", { method:"POST", body:fd });
+}
+
+function loadSpotsFromStorage(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    if(data && data.camps && data.groups){
+      CAMPS.forEach(c => {
+        if(typeof data.camps[c.id] === "number"){
+          campSpots[c.id] = Math.max(0, data.camps[c.id]);
+        }
+      });
+      GROUPS.forEach(g => {
+        if(typeof data.groups[g.id] === "number"){
+          groupSpots[g.id] = Math.max(0, data.groups[g.id]);
+        }
+      });
+    }
+  }catch(e){
+    console.log("Spots storage parse failed, using defaults.");
+  }
+}
+
+function saveSpotsToStorage(){
+  try{
+    const payload = { camps: campSpots, groups: groupSpots };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  }catch(e){
+    console.log("Unable to save spots:", e);
+  }
+}
+
+function homeSection(){
+  return `<div class="grid cols-3">
+    <div class="card">
+      <div class="kicker">Winter Training</div>
+      <h2>Small-Group Technical Sessions</h2>
+      <p class="muted">All sessions focus on individual skills: dribbling, passing, shooting. Includes Nike training shirt and media coverage.</p>
+      <div class="actions"><button class="btn cta" onclick="navTo('groups')">View Training Groups</button></div>
+    </div>
+    <div class="card">
+      <div class="kicker">Winter Camps</div>
+      <h2>Week 1 & Week 2 (9am-12pm)</h2>
+      <p class="muted">Focus: shooting, dribbling, passing, individual tactics and cognitive training.</p>
+      <div class="actions"><button class="btn cta" onclick="navTo('camps')">View Camps</button></div>
+    </div>
+    <div class="card">
+      <div class="kicker">Questions?</div>
+      <h3>Send an Inquiry</h3>
+      <p class="muted">Have a quick question before registering? Submit an inquiry.</p>
+      <div class="actions"><button class="btn" onclick="navTo('inquiry')">Go to Inquiry</button></div>
+    </div>
+  </div>`;
+}
+
+function groupsSection(){
+  const cards = GROUPS.map(g => {
+    const left = Math.max(0, Number(groupSpots[g.id] ?? g.defaultSpots));
+    const full = left <= 0;
+    const total = g.id === "fri-open" ? null : g.sessions * g.price;
+    return `<div class="card">
+      <div class="kicker">${g.title}</div>
+      <div>${g.detail}</div>
+      <div class="muted" style="margin-top:6px">${g.sessions} sessions · ${g.id === "fri-open" ? cad(g.price) + " drop-in" : cad(g.price) + "/session"}</div>
+      ${total !== null ? `<div class="muted">Total: ${cad(total)}</div>` : ""}
+      <div class="muted">Spots left: ${left}</div>
+      <div class="actions">
+        <button class="btn cta" ${full ? "disabled" : ""} onclick="openGroup('${g.id}')">${full ? "Full" : "Register"}</button>
+      </div>
+    </div>`;
+  }).join("");
+  return `<h2 class="center" style="letter-spacing:.35em;text-transform:uppercase">Training Groups</h2>
+    <p class="muted center">Pricing shown on each card. Nike Dri-FIT shirt included (open runs excluded).</p>
+    <div class="grid cols-32" style="margin-top:12px">${cards}</div>`;
+}
+
+function campsSection(){
+  const cards = CAMPS.map(c => {
+    const left = Math.max(0, Number(campSpots[c.id] ?? c.defaultSpots));
+    const full = left <= 0;
+    return `<div class="card">
+      <div class="kicker">${c.title}</div>
+      <div>${c.detail}</div>
+      <div class="muted" style="margin-top:6px">Price: ${cad(c.price)}</div>
+      <div class="muted">Spots left: ${left}</div>
+      <div class="actions">
+        <button class="btn cta" ${full ? "disabled" : ""} onclick="openCamp('${c.id}')">${full ? "Full" : "Register"}</button>
+        <button class="btn" onclick="detailsCamp('${c.id}')">Details</button>
+      </div>
+    </div>`;
+  }).join("");
+  return `<h2 class="center" style="letter-spacing:.35em;text-transform:uppercase">Winter Camps — December</h2>
+    <p class="muted center">Two weeks available.</p>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:12px">${cards}</div>`;
+}
+
+function inquirySection(){
+  return `<section>
+    <h2 class="center" style="letter-spacing:.35em;text-transform:uppercase">Inquiry</h2>
+    <div class="card" style="margin-top:12px">
+      <div class="row cols-2">
+        <input id="inqAth" placeholder="Athlete full name"/>
+        <input id="inqDob" placeholder="Date of Birth (YYYY-MM-DD)"/>
+        <input id="inqTeam" placeholder="Current Team"/>
+        <input id="inqParent" placeholder="Parent/Guardian name"/>
+        <input id="inqEmail" placeholder="Contact Email" type="email"/>
+        <input id="inqPhone" placeholder="Phone (optional)"/>
+        <textarea id="inqMsg" placeholder="Message (optional)"></textarea>
+      </div>
+      <div class="actions">
+        <button class="btn cta" onclick="sendInquiry()">Submit Inquiry</button>
+      </div>
+      <div id="inqNotice" class="notice" style="display:none">Thank you for the application.</div>
+    </div>
+  </section>`;
+}
+
+function render(){
+  let h = "";
+  if(route === "home") h = homeSection();
+  if(route === "groups") h = groupsSection();
+  if(route === "camps") h = campsSection();
+  if(route === "inquiry") h = inquirySection();
+  app.innerHTML = h;
+}
+
+function navTo(r){
+  route = r;
+  render();
+  document.querySelectorAll("nav .btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.route === r);
+  });
+}
+
+function sendInquiry(){
+  const g = id => (document.getElementById(id)?.value || "").trim();
+  const required = ["inqAth","inqDob","inqTeam","inqParent","inqEmail"];
+  for(const id of required){
+    if(!g(id)){ alert("Please complete all required fields."); return; }
+  }
+  netlifySubmit("inquiry",{
+    athlete:g("inqAth"),
+    dob:g("inqDob"),
+    team:g("inqTeam"),
+    parent:g("inqParent"),
+    email:g("inqEmail"),
+    phone:g("inqPhone"),
+    message:g("inqMsg")
+  }).then(() => {
+    const n = document.getElementById("inqNotice");
+    if(n) n.style.display = "block";
+    ["inqAth","inqDob","inqTeam","inqParent","inqEmail","inqPhone","inqMsg"].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.value = "";
+    });
+  }).catch(() => {
+    alert("There was an issue submitting. Please try again.");
+  });
+}
+
+function openCamp(id){
+  activeCamp = CAMPS.find(c => c.id === id);
+  if(!activeCamp) return;
+
+  document.getElementById("campTitle").textContent = activeCamp.title;
+  document.getElementById("campBody").innerHTML = `
+    <div class="row cols-2">
+      <input id="campPlayer" placeholder="Player full name"/>
+      <input id="campParent" placeholder="Parent/Guardian name"/>
+      <input id="campEmail" placeholder="Email" type="email"/>
+      <input id="campPhone" placeholder="Phone (optional)"/>
+      <div class="card" style="grid-column:1/-1">
+        <div class="kicker">Payment</div>
+        <div class="muted">
+          Send e-Transfer to <b>gianni@coachgianni.co</b>.
+          Add <b>Player Name + Camp</b> in the message.
+        </div>
+        <div>
+          <b>Amount Due: ${cad(activeCamp.price)}</b> — includes a Nike Dri-FIT training shirt.
+        </div>
+        <div class="muted" style="font-size:12px">
+          Pay by <b>Nov 12</b> to secure your spot. Final payment due <b>Sun, Nov 30</b>. No exceptions.
+        </div>
+        <label style="display:flex;gap:8px;align-items:flex-start;margin-top:6px">
+          <input type="checkbox" id="campPayChk"/>
+          <span class="muted">I have sent / will send the e-Transfer within 24 hours.</span>
+        </label>
+      </div>
+    </div>
+  `;
+  document.getElementById("campModal").classList.add("open");
+}
+
+function closeCamp(){
+  document.getElementById("campModal").classList.remove("open");
+  activeCamp = null;
+}
+
+function submitCamp(){
+  if(!activeCamp) return;
+  const g = id => (document.getElementById(id)?.value || "").trim();
+  if(!g("campPlayer") || !g("campParent") || !g("campEmail")){
+    alert("Please complete Player, Parent, and Email.");
+    return;
+  }
+  const payChk = document.getElementById("campPayChk");
+  if(!payChk || !payChk.checked){
+    alert("Please confirm you'll send the e-Transfer.");
+    return;
+  }
+
+  netlifySubmit("camp-registration",{
+    campId:activeCamp.id,
+    campTitle:activeCamp.title,
+    campDetail:activeCamp.detail,
+    player:g("campPlayer"),
+    parent:g("campParent"),
+    email:g("campEmail"),
+    phone:g("campPhone"),
+    amount:cad(activeCamp.price),
+    paymentConfirmed:true
+  }).then(() => {
+    const current = Number(campSpots[activeCamp.id] ?? activeCamp.defaultSpots);
+    campSpots[activeCamp.id] = Math.max(0, current - 1);
+    saveSpotsToStorage();
+    alert("Thank you for the application.");
+    closeCamp();
+    render();
+  }).catch(() => {
+    alert("There was an issue submitting. Please try again.");
+  });
+}
+
+function openGroup(id){
+  activeGroup = GROUPS.find(g => g.id === id);
+  if(!activeGroup) return;
+  const isDropIn = activeGroup.id === "fri-open";
+  const total = isDropIn ? null : activeGroup.sessions * activeGroup.price;
+
+  document.getElementById("groupTitle").textContent = activeGroup.title;
+  document.getElementById("groupBody").innerHTML = `
+    <div class="row cols-2">
+      <input id="grpPlayer" placeholder="Player full name"/>
+      <input id="grpParent" placeholder="Parent/Guardian name"/>
+      <input id="grpEmail" placeholder="Email" type="email"/>
+      <input id="grpPhone" placeholder="Phone (optional)"/>
+      ${!isDropIn ? `
+      <select id="grpSize1">
+        <option value="">Shirt Size (Primary)</option>
+        <option>YXS</option><option>YS</option><option>YM</option><option>YL</option><option>YXL</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+      </select>
+      <select id="grpSize2">
+        <option value="">Shirt Size (Secondary)</option>
+        <option>YXS</option><option>YS</option><option>YM</option><option>YL</option><option>YXL</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+      </select>` : ""}
+      <div class="card" style="grid-column:1/-1">
+        <div class="kicker">Payment</div>
+        <div class="muted">
+          Send e-Transfer to <b>gianni@coachgianni.co</b>.
+          Add <b>Player Name + Group</b> in the message.
+        </div>
+        <div>
+          <b>Amount Due: ${isDropIn ? cad(activeGroup.price) + " per night" : cad(total)}</b>
+          ${isDropIn ? " — open run (shirt not included)." : " — includes a Nike Dri-FIT training shirt."}
+        </div>
+        <div class="muted" style="font-size:12px">
+          Pay by <b>Nov 12</b> to secure your spot. Final payment due <b>Sun, Nov 30</b>. No exceptions.
+        </div>
+        <label style="display:flex;gap:8px;align-items:flex-start;margin-top:6px">
+          <input type="checkbox" id="grpPayChk"/>
+          <span class="muted">I have sent / will send the e-Transfer within 24 hours.</span>
+        </label>
+      </div>
+    </div>
+  `;
+  document.getElementById("groupModal").classList.add("open");
+}
+
+function closeGroup(){
+  document.getElementById("groupModal").classList.remove("open");
+  activeGroup = null;
+}
+
+function submitGroup(){
+  if(!activeGroup) return;
+
+  const g = id => {
+    const el = document.getElementById(id);
+    return el ? (el.value || "").trim() : "";
+  };
+
+  if(!g("grpPlayer") || !g("grpParent") || !g("grpEmail")){
+    alert("Please complete Player, Parent, and Email.");
+    return;
+  }
+
+  const payChk = document.getElementById("grpPayChk");
+  if(!payChk || !payChk.checked){
+    alert("Please confirm you'll send the e-Transfer.");
+    return;
+  }
+
+  const isDropIn = activeGroup.id === "fri-open";
+  const total = isDropIn ? "" : cad(activeGroup.sessions * activeGroup.price);
+  const amount = isDropIn ? cad(activeGroup.price) + " per night" : total;
+
+  netlifySubmit("group-registration",{
+    groupId:activeGroup.id,
+    groupTitle:activeGroup.title,
+    groupDetail:activeGroup.detail,
+    player:g("grpPlayer"),
+    parent:g("grpParent"),
+    email:g("grpEmail"),
+    phone:g("grpPhone"),
+    sizePrimary:g("grpSize1"),
+    sizeSecondary:g("grpSize2"),
+    amount:amount,
+    paymentConfirmed:true
+  }).then(() => {
+    const current = Number(groupSpots[activeGroup.id] ?? activeGroup.defaultSpots);
+    groupSpots[activeGroup.id] = Math.max(0, current - 1);
+    saveSpotsToStorage();
+    alert("Thank you for the application.");
+    closeGroup();
+    render();
+  }).catch(() => {
+    alert("There was an issue submitting. Please try again.");
+  });
+}
+
+function detailsCamp(id){
+  const c = CAMPS.find(x => x.id === id);
+  if(!c) return;
+  alert(
+    c.title + "\n" +
+    c.detail + "\n\n" +
+    "Focus: shooting, dribbling, passing, individual tactics and cognitive training.\n" +
+    "Cost: " + cad(c.price)
+  );
+}
+
+// Snow overlay
+(function snow(){
+  const snow = document.getElementById("snow");
+  if(!snow) return;
+  for(let i=0;i<80;i++){
+    const s = document.createElement("span");
+    s.className = "flake";
+    const left = Math.random() * 100;
+    const delay = Math.random() * 6;
+    const dur = 6 + Math.random() * 8;
+    const scale = 0.5 + Math.random() * 1.2;
+    s.style.left = left + "%";
+    s.style.animationDelay = delay + "s";
+    s.style.animationDuration = dur + "s";
+    s.style.transform = "scale(" + scale + ")";
+    snow.appendChild(s);
+  }
+})();
+
+// Nav bindings
+document.querySelectorAll("nav .btn").forEach(b => {
+  b.addEventListener("click", () => navTo(b.dataset.route));
+});
+
+// Init
+loadSpotsFromStorage();
+// force Tuesday as full
+groupSpots["tue"] = 0;
+render();
+</script>
+</body>
+</html>
