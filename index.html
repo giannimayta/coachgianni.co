@@ -15,63 +15,34 @@
       background:var(--bg);color:var(--white);
       font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
     }
-    .container{
-      max-width:1100px;
-      margin:0 auto;
-      padding:16px 16px 32px;
-    }
-    .header{
-      border-bottom:1px solid var(--line);
-      padding:10px 12px;
-      text-align:center;
-      position:sticky;
-      top:0;
-      z-index:30;
-      backdrop-filter:blur(12px);
-      background:rgba(10,10,10,.9);
-    }
-    .logo{height:40px;opacity:.95}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    .header{border-bottom:1px solid var(--line);padding:8px 10px;text-align:center}
+    .logo{height:44px;opacity:.95}
     h1{
-      letter-spacing:.25em;
+      letter-spacing:.30em;
       text-transform:uppercase;
       font-weight:700;
       margin:4px 0 0 0;
-      font-size:15px;
+      font-size:16px;
     }
     nav{
-      display:flex;
-      gap:8px;
-      justify-content:center;
-      margin-top:6px;
-      flex-wrap:wrap;
-    }
-    @media(max-width:600px){
-      h1{font-size:13px;letter-spacing:.18em;}
-      nav{
-        justify-content:flex-start;
-        overflow-x:auto;
-        padding-bottom:4px;
-        scrollbar-width:none;
-      }
-      nav::-webkit-scrollbar{display:none;}
+      display:flex;gap:8px;justify-content:center;
+      margin-top:6px;flex-wrap:wrap;
     }
     .btn{
       border:1px solid #3f3f46;
-      padding:.4rem .7rem;
-      border-radius:999px;
+      padding:.4rem .65rem;
+      border-radius:12px;
       text-transform:uppercase;
       letter-spacing:.12em;
-      font-size:.7rem;
+      font-size:.72rem;
       background:transparent;
       color:var(--white);
       cursor:pointer;
-      white-space:nowrap;
     }
     .btn.active{background:#fff;color:#000}
-    .btn[disabled]{opacity:.4;cursor:not-allowed}
-
     .banner{
-      height:150px;position:relative;
+      height:160px;position:relative;
       border-bottom:1px solid var(--line);
       overflow:hidden;
     }
@@ -81,24 +52,17 @@
       background:url('assets/GM109128.jpg') center/cover no-repeat;
       opacity:.35;
     }
-
     .grid{display:grid;gap:16px}
-    .grid-auto{
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    }
     @media(min-width:900px){
       .grid.cols-3{grid-template-columns:2fr 1fr 1fr}
+      .grid.cols-32{grid-template-columns:repeat(3,1fr)}
     }
     .card{
-      background:rgba(24,24,27,.7);
+      background:rgba(24,24,27,.5);
       border:1px solid #27272a;
       border-radius:var(--radius);
-      padding:14px;
+      padding:16px;
     }
-    @media(max-width:600px){
-      .card{padding:12px;border-radius:14px;}
-    }
-
     .muted{color:var(--muted)}
     .kicker{
       font-size:11px;
@@ -106,35 +70,12 @@
       letter-spacing:.25em;
       color:var(--muted);
     }
-    .actions{
-      display:flex;
-      gap:8px;
-      margin-top:10px;
-      flex-wrap:wrap;
-    }
+    .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
     .cta{background:#fff;color:#000}
     .center{text-align:center}
-
-    .pill-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-top:4px;
-      font-size:.78rem;
-    }
-    .pill{
-      padding:2px 8px;
-      border-radius:999px;
-      border:1px solid #3f3f46;
-      color:var(--muted);
-    }
-    .pill-spot-ok{border-color:#16a34a;color:#bbf7d0;}
-    .pill-spot-low{border-color:#f97316;color:#fed7aa;}
-    .pill-spot-full{border-color:#dc2626;color:#fecaca;}
-
     .modal{
       position:fixed;inset:0;
-      background:rgba(0,0,0,.75);
+      background:rgba(0,0,0,.6);
       display:none;
       align-items:center;justify-content:center;
       padding:16px;z-index:50;
@@ -145,29 +86,21 @@
       border:1px solid var(--line);
       border-radius:20px;
       max-width:700px;width:100%;
-      box-shadow:0 20px 80px rgba(0,0,0,.8);
-      max-height:90vh;
-      display:flex;
-      flex-direction:column;
+      box-shadow:0 20px 80px rgba(0,0,0,.6);
     }
     .modal-head,.modal-foot{
-      padding:10px 14px;
+      padding:12px 16px;
       border-bottom:1px solid var(--line);
       display:flex;align-items:center;justify-content:space-between;
     }
     .modal-foot{border-top:1px solid var(--line);border-bottom:0}
-    .modal-body{
-      padding:14px;
-      overflow-y:auto;
-    }
-
+    .modal-body{padding:16px}
     input,select,textarea{
       width:100%;box-sizing:border-box;
       border-radius:12px;
       border:1px solid #2b2b2b;
       background:#fff;color:#000;
-      padding:9px 10px;
-      font-size:.9rem;
+      padding:10px;
     }
     textarea{min-height:120px}
     .row{display:grid;gap:10px}
@@ -216,7 +149,6 @@
 
   <main class="container" id="app"></main>
 
-  <!-- CAMP MODAL -->
   <div class="modal" id="campModal" aria-hidden="true">
     <div class="modal-panel">
       <div class="modal-head">
@@ -231,7 +163,6 @@
     </div>
   </div>
 
-  <!-- GROUP MODAL -->
   <div class="modal" id="groupModal" aria-hidden="true">
     <div class="modal-panel">
       <div class="modal-head">
@@ -286,41 +217,50 @@
     <textarea name="message"></textarea>
   </form>
 
+  <!-- Trigger form so Netlify picks up forms -->
   <form name="trigger" data-netlify="true">
     <input type="text" name="temp" value="1">
   </form>
 
 <script>
 const CAMPS = [
-  { id:"wk1", title:"Winter Camp — Week 1", detail:"Dec 22, 23, 24 - 9:00am-12:00pm + Open Run Dec 24 until 1:00pm", price:350, defaultSpots:10 },
-  { id:"wk2", title:"Winter Camp — Week 2", detail:"Dec 29, 30, 31 - 9:00am-12:00pm + Open Run Dec 31 until 1:00pm", price:350, defaultSpots:10 }
+  { id: "wk1", title: "Winter Camp — Week 1", detail: "Dec 22, 23, 24 - 9:00am-12:00pm + Open Run Dec 24 until 1:00pm", price: 350, defaultSpots: 10 },
+  { id: "wk2", title: "Winter Camp — Week 2", detail: "Dec 29, 30, 31 - 9:00am-12:00pm + Open Run Dec 31 until 1:00pm", price: 350, defaultSpots: 10 }
 ];
+const CAMP_PASSWORDS = { wk1: "RUSSO", wk2: "RODMAN" };
 
 const GROUPS = [
-  { id:"sun-10-12", title:"Sundays 10:00am-12:00pm", detail:"Dec 7, 14, 21 - 10:00am-12:00pm", sessions:3, price:100, defaultSpots:7, includesShirt:true },
-  { id:"sun-12-2",  title:"Sundays 12:00pm-2:00pm", detail:"Dec 7, 14, 21 - 12:00pm-2:00pm", sessions:3, price:100, defaultSpots:8, includesShirt:true },
-  { id:"mon",       title:"Mondays", detail:"Dec 1, 8, 15 (9-10pm) · Dec 22 (8-9pm) · Dec 29 (9-10pm)", sessions:5, price:75, defaultSpots:5, includesShirt:true },
-  { id:"tue",       title:"Tuesdays", detail:"Dec 2, 9, 16, 23 - 7-9pm", sessions:4, price:100, defaultSpots:2, includesShirt:true },
-  { id:"wed",       title:"Wednesdays", detail:"Dec 3, 10, 17 - 9-10pm", sessions:3, price:75, defaultSpots:2, includesShirt:true },
-  { id:"thu-1",     title:"Thursdays 6-7pm", detail:"Dec 4, 11, 18 - 6-7pm", sessions:3, price:230/3, defaultSpots:5, includesShirt:true },
-  { id:"thu-2",     title:"Thursdays 7-9pm", detail:"Dec 4, 11, 18 - 7-9pm", sessions:3, price:320/3, defaultSpots:3, includesShirt:true },
-  { id:"fri-1",     title:"Fridays 6-8pm", detail:"Dec 5, 12, 19 - 6-8pm", sessions:3, price:320/3, defaultSpots:8, includesShirt:true },
-  { id:"fri-open",  title:"Friday Open Runs 8-10pm", detail:"Dec 5, 12, 19 - drop-in", sessions:3, price:20, defaultSpots:20, includesShirt:false }
+  { id: "sun-10-12", title: "Sundays 10:00am-12:00pm", detail: "Dec 7, 14, 21 - 10:00am-12:00pm", sessions: 3, price: 100, defaultSpots: 7, includesShirt: true },
+  { id: "sun-12-2",  title: "Sundays 12:00pm-2:00pm", detail: "Dec 7, 14, 21 - 12:00pm-2:00pm", sessions: 3, price: 100, defaultSpots: 8, includesShirt: true },
+  { id: "mon",       title: "Mondays", detail: "Dec 1, 8, 15 (9-10pm) · Dec 22 (8-9pm) · Dec 29 (9-10pm)", sessions: 5, price: 75, defaultSpots: 5, includesShirt: true },
+
+  { id: "tue",       title: "Tuesdays", detail: "Dec 2, 9, 16, 23 - 7-9pm", sessions: 4, price: 100, defaultSpots: 0, includesShirt: true },
+
+  { id: "wed",       title: "Wednesdays", detail: "Dec 3, 10, 17 - 9-10pm", sessions: 3, price: 75, defaultSpots: 2, includesShirt: true },
+  { id: "thu-1",     title: "Thursdays 6-7pm", detail: "Dec 4, 11, 18 - 6-7pm", sessions: 3, price: 230/3, defaultSpots: 5, includesShirt: true },
+  { id: "thu-2",     title: "Thursdays 7-9pm", detail: "Dec 4, 11, 18 - 7-9pm", sessions: 3, price: 320/3, defaultSpots: 3, includesShirt: true },
+  { id: "fri-1",     title: "Fridays 6-8pm", detail: "Dec 5, 12, 19 - 6-8pm", sessions: 3, price: 320/3, defaultSpots: 8, includesShirt: true },
+  { id: "fri-open",  title: "Friday Open Runs 8-10pm", detail: "Dec 5, 12, 19 - drop-in", sessions: 3, price: 20, defaultSpots: 20, includesShirt: false }
 ];
 
-const STORAGE_KEY = "cg_spots_v4";
+const GROUP_PASSWORDS = {
+  "sun-10-12":"AITANA","sun-12-2":"ALEXIA","mon":"MIA","tue":"MEG","wed":"KERR",
+  "thu-1":"SINC","thu-2":"MAPI","fri-1":"SAM","fri-open":"TOBIN"
+};
 
-let campSpots = Object.fromEntries(CAMPS.map(c => [c.id, c.defaultSpots]));
-let groupSpots = Object.fromEntries(GROUPS.map(g => [g.id, g.defaultSpots]));
-let route = "home";
-let activeCamp = null;
-let activeGroup = null;
-
-const app = document.getElementById("app");
+const STORAGE_KEY = "cg_spots_v2";
 
 function cad(n){
   return new Intl.NumberFormat("en-CA",{style:"currency",currency:"CAD"}).format(Number(n));
 }
+
+let campSpots = Object.fromEntries(CAMPS.map(c => [c.id, c.defaultSpots]));
+let groupSpots = Object.fromEntries(GROUPS.map(g => [g.id, g.defaultSpots]));
+let route = "home";
+let activeCamp = null, campUnlocked = false;
+let activeGroup = null, groupUnlocked = false;
+
+const app = document.getElementById("app");
 
 function netlifySubmit(name,data){
   const fd = new FormData();
@@ -350,6 +290,7 @@ function loadSpotsFromStorage(){
     console.log("Spots storage parse failed, using defaults.");
   }
 }
+
 function saveSpotsToStorage(){
   try{
     const payload = { camps: campSpots, groups: groupSpots };
@@ -359,56 +300,8 @@ function saveSpotsToStorage(){
   }
 }
 
-async function loadSpotsFromServer(){
-  try{
-    const res = await fetch("/.netlify/functions/spots", { cache:"no-store" });
-    if(!res.ok) throw new Error("bad status");
-    const data = await res.json();
-    if(data.camps){
-      CAMPS.forEach(c => {
-        if(typeof data.camps[c.id] === "number"){
-          campSpots[c.id] = Math.max(0, data.camps[c.id]);
-        }
-      });
-    }
-    if(data.groups){
-      GROUPS.forEach(g => {
-        if(typeof data.groups[g.id] === "number"){
-          groupSpots[g.id] = Math.max(0, data.groups[g.id]);
-        }
-      });
-    }
-    saveSpotsToStorage();
-  }catch(e){
-    console.log("Server spots unavailable, falling back to local:", e);
-    loadSpotsFromStorage();
-  }
-}
-async function updateSpotsOnServer(kind,id,newValue){
-  try{
-    await fetch("/.netlify/functions/spots",{
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body:JSON.stringify({ type:kind, id, spots:newValue })
-    });
-  }catch(e){
-    console.log("Failed to sync spots to server:", e);
-  }
-}
-
-function spotPillClass(left){
-  if(left <= 0) return "pill pill-spot-full";
-  if(left <= 2) return "pill pill-spot-low";
-  return "pill pill-spot-ok";
-}
-function spotLabel(left){
-  if(left <= 0) return "Full";
-  if(left === 1) return "1 spot left";
-  return `${left} spots left`;
-}
-
 function homeSection(){
-  return `<div class="grid grid-auto">
+  return `<div class="grid cols-3">
     <div class="card">
       <div class="kicker">Winter Training</div>
       <h2>Small-Group Technical Sessions</h2>
@@ -418,7 +311,7 @@ function homeSection(){
     <div class="card">
       <div class="kicker">Winter Camps</div>
       <h2>Week 1 & Week 2 (9am-12pm)</h2>
-      <p class="muted">Focus: shooting, dribbling, passing, individual tactics and cognitive training.</p>
+      <p class="muted">Focus: shooting, dribbling, passing, individual tactics and cognitive training. Password required to register.</p>
       <div class="actions"><button class="btn cta" onclick="navTo('camps')">View Camps</button></div>
     </div>
     <div class="card">
@@ -434,25 +327,21 @@ function groupsSection(){
   const cards = GROUPS.map(g => {
     const left = Math.max(0, Number(groupSpots[g.id] ?? g.defaultSpots));
     const full = left <= 0;
-    const isDropIn = g.id === "fri-open";
-    const total = isDropIn ? null : g.sessions * g.price;
+    const total = g.id === "fri-open" ? null : g.sessions * g.price;
     return `<div class="card">
       <div class="kicker">${g.title}</div>
       <div>${g.detail}</div>
-      <div class="pill-row">
-        <span class="pill">${g.sessions} sessions</span>
-        <span class="pill">${isDropIn ? cad(g.price) + " / drop-in" : cad(g.price) + "/session"}</span>
-        ${total !== null ? `<span class="pill">${cad(total)} total</span>` : ""}
-        <span class="${spotPillClass(left)}">${spotLabel(left)}</span>
-      </div>
-      <div class="actions" style="margin-top:12px">
+      <div class="muted" style="margin-top:6px">${g.sessions} sessions · ${g.id === "fri-open" ? cad(g.price) + " drop-in" : cad(g.price) + "/session"}</div>
+      ${total !== null ? `<div class="muted">Total: ${cad(total)}</div>` : ""}
+      <div class="muted">Spots left: ${left}</div>
+      <div class="actions">
         <button class="btn cta" ${full ? "disabled" : ""} onclick="openGroup('${g.id}')">${full ? "Full" : "Register"}</button>
       </div>
     </div>`;
   }).join("");
-  return `<h2 class="center" style="letter-spacing:.35em;text-transform:uppercase;margin-bottom:4px">Training Groups</h2>
+  return `<h2 class="center" style="letter-spacing:.35em;text-transform:uppercase">Training Groups</h2>
     <p class="muted center">Pricing shown on each card. Nike Dri-FIT shirt included (open runs excluded).</p>
-    <div class="grid grid-auto" style="margin-top:12px">${cards}</div>`;
+    <div class="grid cols-32" style="margin-top:12px">${cards}</div>`;
 }
 
 function campsSection(){
@@ -462,19 +351,17 @@ function campsSection(){
     return `<div class="card">
       <div class="kicker">${c.title}</div>
       <div>${c.detail}</div>
-      <div class="pill-row">
-        <span class="pill">${cad(c.price)}</span>
-        <span class="${spotPillClass(left)}">${spotLabel(left)}</span>
-      </div>
+      <div class="muted" style="margin-top:6px">Price: ${cad(c.price)}</div>
+      <div class="muted">Spots left: ${left}</div>
       <div class="actions">
         <button class="btn cta" ${full ? "disabled" : ""} onclick="openCamp('${c.id}')">${full ? "Full" : "Register"}</button>
         <button class="btn" onclick="detailsCamp('${c.id}')">Details</button>
       </div>
     </div>`;
   }).join("");
-  return `<h2 class="center" style="letter-spacing:.35em;text-transform:uppercase;margin-bottom:4px">Winter Camps — December</h2>
-    <p class="muted center">Two weeks available.</p>
-    <div class="grid grid-auto" style="margin-top:12px">${cards}</div>`;
+  return `<h2 class="center" style="letter-spacing:.35em;text-transform:uppercase">Winter Camps — December</h2>
+    <p class="muted center">Two weeks available. <b>Password required</b> to register.</p>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:12px">${cards}</div>`;
 }
 
 function inquirySection(){
@@ -544,19 +431,18 @@ function sendInquiry(){
 function openCamp(id){
   activeCamp = CAMPS.find(c => c.id === id);
   if(!activeCamp) return;
-
-  const left = Math.max(0, Number(campSpots[activeCamp.id] ?? activeCamp.defaultSpots));
-
+  campUnlocked = false;
   document.getElementById("campTitle").textContent = activeCamp.title;
   document.getElementById("campBody").innerHTML = `
     <div class="row cols-2">
-      <div style="grid-column:1/-1" class="muted">
-        <span class="${spotPillClass(left)}">${spotLabel(left)}</span>
+      <div class="row cols-2" style="grid-column:1/-1">
+        <input id="campPw" placeholder="Camp password"/>
+        <button class="btn cta" onclick="unlockCamp()">Unlock</button>
       </div>
-      <input id="campPlayer" placeholder="Player full name"/>
-      <input id="campParent" placeholder="Parent/Guardian name"/>
-      <input id="campEmail" placeholder="Email" type="email"/>
-      <input id="campPhone" placeholder="Phone (optional)"/>
+      <input id="campPlayer" placeholder="Player full name" disabled/>
+      <input id="campParent" placeholder="Parent/Guardian name" disabled/>
+      <input id="campEmail" placeholder="Email" type="email" disabled/>
+      <input id="campPhone" placeholder="Phone (optional)" disabled/>
       <div class="card" style="grid-column:1/-1">
         <div class="kicker">Payment</div>
         <div class="muted">
@@ -578,12 +464,31 @@ function openCamp(id){
   `;
   document.getElementById("campModal").classList.add("open");
 }
+
 function closeCamp(){
   document.getElementById("campModal").classList.remove("open");
   activeCamp = null;
 }
+
+function unlockCamp(){
+  if(!activeCamp) return;
+  const input = (document.getElementById("campPw")?.value || "").trim().toUpperCase();
+  const correct = String(CAMP_PASSWORDS[activeCamp.id] || "").toUpperCase();
+  if(input === correct){
+    campUnlocked = true;
+    ["campPlayer","campParent","campEmail","campPhone"].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.disabled = false;
+    });
+    alert("Password accepted. Complete the form and send.");
+  }else{
+    alert("Incorrect password. Try again.");
+  }
+}
+
 function submitCamp(){
   if(!activeCamp) return;
+  if(!campUnlocked){ alert("Please enter the camp password first."); return; }
   const g = id => (document.getElementById(id)?.value || "").trim();
   if(!g("campPlayer") || !g("campParent") || !g("campEmail")){
     alert("Please complete Player, Parent, and Email.");
@@ -605,12 +510,10 @@ function submitCamp(){
     phone:g("campPhone"),
     amount:cad(activeCamp.price),
     paymentConfirmed:true
-  }).then(async () => {
+  }).then(() => {
     const current = Number(campSpots[activeCamp.id] ?? activeCamp.defaultSpots);
-    const next = Math.max(0, current - 1);
-    campSpots[activeCamp.id] = next;
+    campSpots[activeCamp.id] = Math.max(0, current - 1);
     saveSpotsToStorage();
-    await updateSpotsOnServer("camp", activeCamp.id, next);
     alert("Thank you for the application.");
     closeCamp();
     render();
@@ -622,27 +525,28 @@ function submitCamp(){
 function openGroup(id){
   activeGroup = GROUPS.find(g => g.id === id);
   if(!activeGroup) return;
+  groupUnlocked = false;
   const isDropIn = activeGroup.id === "fri-open";
   const total = isDropIn ? null : activeGroup.sessions * activeGroup.price;
-  const left = Math.max(0, Number(groupSpots[activeGroup.id] ?? activeGroup.defaultSpots));
 
   document.getElementById("groupTitle").textContent = activeGroup.title;
   document.getElementById("groupBody").innerHTML = `
     <div class="row cols-2">
-      <div style="grid-column:1/-1" class="muted">
-        <span class="${spotPillClass(left)}">${spotLabel(left)}</span>
+      <div class="row cols-2" style="grid-column:1/-1">
+        <input id="grpPw" placeholder="Group password"/>
+        <button class="btn cta" onclick="unlockGroup()">Unlock</button>
       </div>
-      <input id="grpPlayer" placeholder="Player full name"/>
-      <input id="grpParent" placeholder="Parent/Guardian name"/>
-      <input id="grpEmail" placeholder="Email" type="email"/>
-      <input id="grpPhone" placeholder="Phone (optional)"/>
+      <input id="grpPlayer" placeholder="Player full name" disabled/>
+      <input id="grpParent" placeholder="Parent/Guardian name" disabled/>
+      <input id="grpEmail" placeholder="Email" type="email" disabled/>
+      <input id="grpPhone" placeholder="Phone (optional)" disabled/>
       ${!isDropIn ? `
-      <select id="grpSize1">
+      <select id="grpSize1" disabled>
         <option value="">Shirt Size (Primary)</option>
         <option>YXS</option><option>YS</option><option>YM</option><option>YL</option><option>YXL</option>
         <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
       </select>
-      <select id="grpSize2">
+      <select id="grpSize2" disabled>
         <option value="">Shirt Size (Secondary)</option>
         <option>YXS</option><option>YS</option><option>YM</option><option>YL</option><option>YXL</option>
         <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
@@ -669,12 +573,35 @@ function openGroup(id){
   `;
   document.getElementById("groupModal").classList.add("open");
 }
+
 function closeGroup(){
   document.getElementById("groupModal").classList.remove("open");
   activeGroup = null;
 }
+
+function unlockGroup(){
+  if(!activeGroup) return;
+  const input = (document.getElementById("grpPw")?.value || "").trim().toUpperCase();
+  const correct = String(GROUP_PASSWORDS[activeGroup.id] || "").toUpperCase();
+  if(input === correct){
+    groupUnlocked = true;
+    ["grpPlayer","grpParent","grpEmail","grpPhone","grpSize1","grpSize2"].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.disabled = false;
+    });
+    alert("Password accepted. Complete the form and send.");
+  }else{
+    alert("Incorrect password. Try again.");
+  }
+}
+
 function submitGroup(){
   if(!activeGroup) return;
+  if(!groupUnlocked){
+    alert("Please enter the group password first.");
+    return;
+  }
+
   const g = id => {
     const el = document.getElementById(id);
     return el ? (el.value || "").trim() : "";
@@ -707,12 +634,10 @@ function submitGroup(){
     sizeSecondary:g("grpSize2"),
     amount:amount,
     paymentConfirmed:true
-  }).then(async () => {
+  }).then(() => {
     const current = Number(groupSpots[activeGroup.id] ?? activeGroup.defaultSpots);
-    const next = Math.max(0, current - 1);
-    groupSpots[activeGroup.id] = next;
+    groupSpots[activeGroup.id] = Math.max(0, current - 1);
     saveSpotsToStorage();
-    await updateSpotsOnServer("group", activeGroup.id, next);
     alert("Thank you for the application.");
     closeGroup();
     render();
@@ -732,6 +657,7 @@ function detailsCamp(id){
   );
 }
 
+// Snow overlay
 (function snow(){
   const snow = document.getElementById("snow");
   if(!snow) return;
@@ -750,14 +676,16 @@ function detailsCamp(id){
   }
 })();
 
+// Nav bindings
 document.querySelectorAll("nav .btn").forEach(b => {
   b.addEventListener("click", () => navTo(b.dataset.route));
 });
 
-(async function init(){
-  await loadSpotsFromServer();
-  render();
-})();
+// Init
+loadSpotsFromStorage();
+// force Tuesday as full
+groupSpots["tue"] = 0;
+render();
 </script>
 </body>
 </html>
